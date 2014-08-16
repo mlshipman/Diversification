@@ -1,0 +1,66 @@
+---
+title       : Shiny on displaying Investment Portfolio Theory
+subtitle    : The power of diversification
+author      : Walter Foppen
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Investigate the power of diversification!
+ 
+* a selection of three stocks is available to select your investment portfolio
+* each stock has an expected return and an expected volatility
+* return and volatility are plotted in a risk-return plot
+* based on the inter-correlations, the return and volatility of a select portfolio is calculated
+* combining the three assets in a portfolio allows to get solid return with lower risk
+
+--- .class #id 
+
+## Calculation of portfolio return and volatility
+ 
+* Assume that the portfolio distribution is, the expected returns, volatilities and correlations are given by,
+```{r}
+Share <- c( 0.4, 0.3, 0.3)
+Return <- c( 0.03, 0.05, 0.08)
+Volatility <- c( 0.12, 0.15, 0.25)
+Corr <- matrix( c(1, 0.2, 0.15, 0.2, 1, 0.25, 0.15, 0.25, 1), nrow=3, ncol =3)
+```
+ 
+* Then the return an volatility of the portfolio is calculated by
+ 
+```{r}
+PFreturn <- sum(Share * Return)
+PFvolatility<-sqrt( Share %*% (Volatility * Corr * Volatility) %*% Share )
+c(PFreturn, PFvolatility)
+```
+
+--- .class #id 
+ 
+## Displaying the effect of shiny inter-activity
+ 
+The following simple changes display the effect of interactivity of this Shiny App.
+ 
+* Increase or decrease the expect return of stock to move its dot up or down
+* Increase or decrease the volatility of a stock to move its dot from left to right
+* Change the contribution of a stock in the portfolio to move the portfolio dot
+ 
+The following effect can be witnessed if the correlation between assets are changed.
+This assumes that the portfolio consists of more than one stock.
+ 
+* An increase in correlation moves the portfolio to the right, i.e. its standard deviation increases
+* A decrease in correlation moves the portfolio to te left, i.e. its standard deviation decreases
+ 
+
+--- .class #id 
+ 
+## Disclaimer
+ 
+* This model assumes investment risk is fully cover by a stock’s volatility
+* The model assumes a multivariate normal distribution to determine the portfolios risk
+* The model is set up with fictual stocks
+* Any investment decision based on the model is for user’s own risk!
